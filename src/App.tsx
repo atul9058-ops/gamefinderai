@@ -4,7 +4,7 @@ const GENRES = ["Action","RPG","Racing","Sports","Puzzle","Shooter","Horror","Ad
 const RAM_OPTIONS = ["512MB","1GB","2GB","3GB","4GB","6GB+"];
 const ROM_OPTIONS = ["4GB","8GB","16GB","32GB","64GB+"];
 const SIZE_OPTIONS = ["Under 50MB","Under 100MB","Under 200MB","Under 500MB","Under 1GB","Any Size"];
-const GEMINI_KEY = "AIzaSyCZt5JxE9UJamf25QSVKksE_ayJf_mEkeY";
+const GEMINI_KEY = "AIzaSyCsyYyG9Crzbrbc6DJQ_u-htu4ExQFIVeA";
 
 export default function GameFinderAI() {
   const [ram, setRam] = useState("");
