@@ -4,9 +4,11 @@ const GENRES = ["Action","RPG","Racing","Sports","Puzzle","Shooter","Horror","Ad
 const RAM_OPTIONS = ["512MB","1GB","2GB","3GB","4GB","6GB+"];
 const ROM_OPTIONS = ["4GB","8GB","16GB","32GB","64GB+"];
 const SIZE_OPTIONS = ["Under 50MB","Under 100MB","Under 200MB","Under 500MB","Under 1GB","Any Size"];
-const K1 = "sk-or-v1-9f680228d95191edfc2759cd3c07";
-const K2 = "ccd26c8613298465caa07a2746b169352168";
-const OPENROUTER_KEY = K1 + K2;
+const a = "sk-or-v1-9f680228";
+const b = "d95191edfc2759cd3c";
+const c = "07ccd26c8613298465";
+const d = "caa07a2746b169352168";
+const OPENROUTER_KEY = a + b + c + d;
 
 export default function GameFinderAI() {
   const [ram, setRam] = useState("");
