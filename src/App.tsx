@@ -42,20 +42,15 @@ Return ONLY a JSON array, no markdown, no explanation:
 [{"name":"Game Name","genre":"Genre","size":"XX MB","rating":"4.5","description":"One line","minRam":"1GB"}]`;
 
     try {
-      const res = await fetch(
-        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${HF_KEY}`,
-          },
-          body: JSON.stringify({
-            inputs: prompt,
-            parameters: { max_new_tokens: 500 }
-          })
-        }
-      );
+      const res = await fetch("/.netlify/functions/getgames", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt })
+});
+const data = await res.json();
+const text = data.choices[0].message.content;
+const clean = text.replace(/```json|```/g, "").trim();
+setResults(JSON.parse(clean));
       const data = await res.json();
       const text = Array.isArray(data) ? data[0].generated_text : data.generated_text;
       const jsonMatch = text.match(/\[[\s\S]*\]/);
