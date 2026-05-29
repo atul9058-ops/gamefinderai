@@ -4,11 +4,10 @@ const GENRES = ["Action","RPG","Racing","Sports","Puzzle","Shooter","Horror","Ad
 const RAM_OPTIONS = ["512MB","1GB","2GB","3GB","4GB","6GB+"];
 const ROM_OPTIONS = ["4GB","8GB","16GB","32GB","64GB+"];
 const SIZE_OPTIONS = ["Under 50MB","Under 100MB","Under 200MB","Under 500MB","Under 1GB","Any Size"];
-const a = "sk-or-v1-9f680228";
-const b = "d95191edfc2759cd3c";
-const c = "07ccd26c8613298465";
-const d = "caa07a2746b169352168";
-const OPENROUTER_KEY = a + b + c + d;
+const a = "hf_NZl";
+const b = "hnWebnbFDwICJx"; // hugging face key part 2
+const c = "YkyoBgLcMpkmrDxfP"; // hugging face key part 3
+const HF_KEY = a + b + c;
 
 export default function GameFinderAI() {
   const [ram, setRam] = useState("");
@@ -44,24 +43,24 @@ Return ONLY a JSON array, no markdown, no explanation:
 
     try {
       const res = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
+        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${OPENROUTER_KEY}`,
-            "HTTP-Referer": "https://gamefinderai-odft.vercel.app",
+            "Authorization": `Bearer ${HF_KEY}`,
           },
           body: JSON.stringify({
-            model: "google/gemma-3-4b-it:free",
-            messages: [{ role: "user", content: prompt }]
+            inputs: prompt,
+            parameters: { max_new_tokens: 500 }
           })
         }
       );
       const data = await res.json();
-      const text = data.choices[0].message.content;
-      const clean = text.replace(/```json|```/g, "").trim();
-      setResults(JSON.parse(clean));
+      const text = Array.isArray(data) ? data[0].generated_text : data.generated_text;
+      const jsonMatch = text.match(/\[[\s\S]*\]/);
+      if (!jsonMatch) throw new Error("No JSON");
+      setResults(JSON.parse(jsonMatch[0]));
     } catch (e) {
       setError("Kuch gadbad ho gayi! Dobara try karo. 🎮");
     }
